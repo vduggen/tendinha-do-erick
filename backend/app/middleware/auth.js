@@ -1,8 +1,15 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 module.exports = (req, res, next) => {
-    if (req.body.senha) {
-        req.body.senha = bcrypt(req.body.senha, 8);
-    }
-    next();
+  const { senha } = req.body;
+
+  if (senha) {
+    bcrypt.hash(senha, 10).then((item) => {
+      console.log(item);
+      req.body.senha = item;
+      next();
+    });
+  }
+
+  // next();
 };
